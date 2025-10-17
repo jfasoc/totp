@@ -23,6 +23,12 @@ line-length = 88
 
 [tool.flake8]
 max-line-length = 88
+exclude = [
+    ".venv",
+    "__pycache__",
+    "build",
+    "dist",
+]
 
 [tool.mypy]
 strict = true
