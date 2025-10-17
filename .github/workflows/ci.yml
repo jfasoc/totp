@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+#    branches: ["main"]
+#  pull_request:
+#    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up PDM
+        uses: pdm-project/setup-pdm@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: true
+      - name: Install dependencies
+        run: pdm install -G :all
+      - name: Run tests
+        run: pdm run pytest
+      - name: Run linters
+        run: |
+          pdm run black --check .
+          pdm run flake8 .
+          pdm run mypy .

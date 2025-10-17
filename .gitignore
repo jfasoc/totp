@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.eggs/
+.egg-info/
+dist/
+build/
+*.so
+.DS_Store
+src/app.egg-info/
+
+# PDM
+.pdm-python
+.pdm.toml
+
+# MyPy
+.mypy_cache/
+
+# Pytest
+.pytest_cache/
+.coverage
