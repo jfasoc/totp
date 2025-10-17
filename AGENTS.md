@@ -14,7 +14,7 @@ This document outlines the standards and requirements for contributing to this p
 - **Style Checking**: Code style is checked with `flake8`. Run `pdm run flake8 .` to check the style.
 - **Type Checking**: Code is type-checked with `mypy`. Run `pdm run mypy .` to check the types.
 - **UTF-8 Source Encoding**: All source files must be UTF-8 encoded.
-- **End-of-File Newline**: All source files must end with a newline.
+- **End-of-File Newline**: All files must end with a newline.
 - **88-Character Line Limit**: The maximum line length is 88 characters.
 - **Docstrings**: All modules, classes, and functions must have docstrings.
 - **Comments**: Comments should explain *why* decisions were made, not *what* the code does.
