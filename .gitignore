@@ -20,7 +20,6 @@ src/app.egg-info/
 # PDM
 .pdm-python
 .pdm.toml
-pdm.lock
 
 # MyPy
 .mypy_cache/
