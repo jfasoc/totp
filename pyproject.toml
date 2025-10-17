@@ -3,7 +3,7 @@ name = "app"
 version = "0.1.0"
 description = "Default template for PDM package"
 authors = [
-    {name = "google-labs-jules", email = "161369871+google-labs-jules@users.noreply.github.com"},
+    {name = "your-username", email = "your-email@example.com"},
 ]
 dependencies = []
 requires-python = ">=3.10"
