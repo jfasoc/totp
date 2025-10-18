@@ -7,3 +7,4 @@ exclude =
     dist
 max-complexity = 10
 werror = true
+max-annotations-complexity = 2
