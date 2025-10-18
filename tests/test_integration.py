@@ -5,11 +5,10 @@ import runpy
 import sys
 import unittest
 from datetime import datetime, timezone
-
-import pytest
 from unittest.mock import MagicMock, patch
 
 import pyperclip
+import pytest
 from freezegun import freeze_time
 
 from totp_calculator.main import main
