@@ -1,6 +1,4 @@
-"""
-This module provides a command-line tool to calculate TOTP codes from URLs.
-"""
+"""Provides a command-line tool to calculate TOTP codes from URLs."""
 
 import argparse
 import re
@@ -36,8 +34,7 @@ SOFTWARE.
 
 
 def generate_totp(totp: pyotp.TOTP) -> str:
-    """
-    Generates a Time-Based One-Time Password (TOTP).
+    """Generate a Time-Based One-Time Password (TOTP).
 
     Args:
         totp: The TOTP object.
@@ -49,8 +46,7 @@ def generate_totp(totp: pyotp.TOTP) -> str:
 
 
 def find_totp_url(text: str) -> str:
-    """
-    Finds a TOTP URL in the given text.
+    """Find a TOTP URL in the given text.
 
     Args:
         text: The text to search for a TOTP URL.
@@ -70,8 +66,7 @@ def find_totp_url(text: str) -> str:
 
 
 def get_totp_from_url(url: str) -> pyotp.TOTP:
-    """
-    Parses a TOTP URL and returns a TOTP object.
+    """Parse a TOTP URL and returns a TOTP object.
 
     Args:
         url: The TOTP URL.
@@ -94,12 +89,12 @@ def get_totp_from_url(url: str) -> pyotp.TOTP:
 
 
 def read_stdin() -> str:
-    """Reads the entire content from stdin."""
+    """Read the entire content from stdin."""
     return sys.stdin.read()
 
 
 def main() -> None:
-    """The main entry point of the application."""
+    """Run the main entry point of the application."""
     parser = argparse.ArgumentParser(
         description=(
             "Scans for a TOTP URL from stdin, "
