@@ -1,6 +1,4 @@
-"""
-Integration tests for the TOTP calculator.
-"""
+"""Integration tests for the TOTP calculator."""
 
 import io
 import runpy
@@ -102,9 +100,7 @@ def test_main_entry_point(
 @freeze_time(datetime(2023, 1, 1, 1, 1, 1, tzinfo=timezone.utc))
 @patch("sys.stdout", new_callable=io.StringIO)
 def test_main_with_all_non_default_params(mock_stdout: io.StringIO) -> None:
-    """
-    Test the main function with a TOTP URL that has all non-default parameters.
-    """
+    """Test the main function with a TOTP URL that has all non-default."""
     url = (
         "otpauth://totp/Test:user@example.com?secret=JBSWY3DPEHPK3PXP"
         "&issuer=Test&algorithm=SHA512&digits=7&period=45"
