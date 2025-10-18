@@ -10,7 +10,7 @@ venv/
 pip-log.txt
 pip-delete-this-directory.txt
 .eggs/
-.egg-info/
+*.egg-info/
 dist/
 build/
 *.so
