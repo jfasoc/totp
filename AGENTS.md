@@ -31,3 +31,4 @@ pdm run mypy .
 ```
 
 If any of these checks fail, the commit will be rejected by the CI/CD pipeline.
+x
