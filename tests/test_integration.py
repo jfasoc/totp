@@ -1,4 +1,6 @@
-"""Integration tests for the TOTP calculator."""
+"""
+Integration tests for the TOTP calculator.
+"""
 
 import io
 import runpy
