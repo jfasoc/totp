@@ -113,17 +113,17 @@ def main() -> None:
         totp_obj = get_totp_from_url(totp_url)
         totp_code = generate_totp(totp_obj)
 
-        print(totp_code)
+        sys.stdout.write(f"{totp_code}\n")
 
         if args.copy:
             try:
                 pyperclip.copy(totp_code)
-                print("Copied to clipboard.", file=sys.stderr)
+                sys.stderr.write("Copied to clipboard.\n")
             except pyperclip.PyperclipException as e:
-                print(f"Warning: Could not copy to clipboard. {e}", file=sys.stderr)
+                sys.stderr.write(f"Warning: Could not copy to clipboard. {e}\n")
 
     except ValueError as e:
-        print(f"Error: {e}", file=sys.stderr)
+        sys.stderr.write(f"Error: {e}\n")
         sys.exit(1)
 
 
