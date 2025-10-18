@@ -13,6 +13,9 @@ requires-python = ">=3.10"
 readme = "README.md"
 license = {text = "MIT"}
 
+[project.scripts]
+totp-calculator = "totp_calculator.main:main"
+
 [tool.pdm]
 distribution = true
 package-dir = "src"

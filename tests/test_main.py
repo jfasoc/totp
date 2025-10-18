@@ -5,8 +5,10 @@ from unittest.mock import patch
 import pyotp
 import pytest
 
-from totp_calculator.main import (find_totp_url, generate_totp,
-                                  get_totp_from_url)
+import io
+import pyperclip
+from totp_calculator.main import (_print_stderr, _print_stdout, find_totp_url,
+                                  generate_totp, get_totp_from_url, main)
 
 
 def test_generate_totp() -> None:
@@ -74,3 +76,45 @@ def test_get_totp_from_url_malformed() -> None:
     url = "http://example.com"
     with pytest.raises(ValueError, match="Failed to parse TOTP URL"):
         get_totp_from_url(url)
+
+
+def test_print_stdout(capsys):
+    """Test that _print_stdout prints to stdout."""
+    _print_stdout("test message")
+    captured = capsys.readouterr()
+    assert captured.out == "test message\n"
+
+
+def test_print_stderr(capsys):
+    """Test that _print_stderr prints to stderr."""
+    _print_stderr("test message")
+    captured = capsys.readouterr()
+    assert captured.err == "test message\n"
+
+
+def test_main_find_url_fail(capsys):
+    """Test that main handles find_totp_url exceptions."""
+    with patch("sys.stdin", io.StringIO("no url here")):
+        with pytest.raises(SystemExit) as cm:
+            main()
+        assert cm.value.code == 1
+    captured = capsys.readouterr()
+    assert "Error: No TOTP URL found in the input." in captured.err
+
+
+def test_main_get_totp_from_url_fail(capsys):
+    """Test that main handles get_totp_from_url exceptions."""
+    with patch("sys.stdin", io.StringIO("otpauth://hotp/test?secret=JBSWY3DPEHPK3PXP")):
+        with pytest.raises(SystemExit) as cm:
+            main()
+        assert cm.value.code == 1
+    captured = capsys.readouterr()
+    assert "Error: Only TOTP is supported." in captured.err
+
+
+def test_main_no_copy(capsys):
+    """Test that the copy to clipboard feature is not triggered without the --copy flag."""
+    with patch("sys.stdin", io.StringIO("otpauth://totp/test?secret=JBSWY3DPEHPK3PXP")):
+        with patch("pyperclip.copy") as mock_copy:
+            main()
+            mock_copy.assert_not_called()
