@@ -3,6 +3,7 @@ Unit tests for the TOTP calculator.
 """
 
 import io
+import runpy
 import sys
 import unittest
 from unittest.mock import MagicMock, patch
@@ -126,6 +127,18 @@ class TestTotpCalculator(unittest.TestCase):
             self.assertIn(
                 "Warning: Could not copy to clipboard", mock_stderr.getvalue()
             )
+
+    @patch("sys.stdin", io.StringIO("otpauth://totp/test?secret=JBSWY3DPEHPK3PXP"))
+    @patch("sys.stdout", new_callable=io.StringIO)
+    @patch("pyotp.TOTP.now")
+    def test_main_entry_point(
+        self, mock_now: MagicMock, mock_stdout: io.StringIO
+    ) -> None:
+        """Test the script's main entry point."""
+        mock_now.return_value = "987654"
+        with patch.object(sys, "argv", ["main.py"]):
+            runpy.run_module("totp_calculator.main", run_name="__main__")
+        self.assertEqual(mock_stdout.getvalue().strip(), "987654")
 
 
 if __name__ == "__main__":

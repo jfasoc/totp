@@ -21,16 +21,6 @@ package-dir = "src"
 [tool.pytest.ini_options]
 addopts = "--cov=src --cov-fail-under=100"
 
-[tool.coverage.run]
-omit = [
-    "src/totp_calculator/main.py",
-]
-
-[tool.coverage.report]
-exclude_lines = [
-    "if __name__ == .__main__.:",
-]
-
 [tool.black]
 line-length = 88
 
