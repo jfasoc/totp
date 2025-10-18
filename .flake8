@@ -7,3 +7,4 @@ exclude =
     dist
 max-complexity = 10
 werror = true
+per-file-ignores = tests/*:S101
