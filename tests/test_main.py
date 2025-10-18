@@ -1,6 +1,4 @@
-"""
-Unit tests for the TOTP calculator.
-"""
+"""Unit tests for the TOTP calculator."""
 
 import unittest
 from unittest.mock import patch
