@@ -7,6 +7,8 @@ import runpy
 import sys
 import unittest
 from datetime import datetime, timezone
+
+import pytest
 from unittest.mock import MagicMock, patch
 
 import pyperclip
@@ -91,7 +93,11 @@ class TestTotpCalculatorIntegration(unittest.TestCase):
         """Test the script's main entry point."""
         mock_now.return_value = "987654"
         with patch.object(sys, "argv", ["main.py"]):
-            runpy.run_module("totp_calculator.main", run_name="__main__")
+            with pytest.warns(
+                RuntimeWarning,
+                match=r"'totp_calculator\.main' found in sys\.modules",
+            ):
+                runpy.run_module("totp_calculator.main", run_name="__main__")
         self.assertEqual(mock_stdout.getvalue().strip(), "987654")
 
     @freeze_time(datetime(2023, 1, 1, 1, 1, 1, tzinfo=timezone.utc))
