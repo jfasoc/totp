@@ -57,7 +57,7 @@ def find_totp_url(text: str) -> str:
         ValueError: If no TOTP URL is found or multiple URLs are found.
     """
     urls: list[str] = re.findall(r"otpauth://[^\s]+", text)
-    if len(urls) == 0:
+    if not urls:
         raise ValueError("No TOTP URL found in the input.")
     if len(urls) > 1:
         raise ValueError("Multiple TOTP URLs found in the input.")
@@ -83,15 +83,28 @@ def get_totp_from_url(url: str) -> pyotp.TOTP:
 
     if not isinstance(totp, pyotp.TOTP):
         raise ValueError("Only TOTP is supported.")
-
-    # We need to cast the result of parse_uri to TOTP, because it's defined as
-    # -> Union[TOTP, HOTP] and this application only supports TOTP.
     return totp
 
 
 def read_stdin() -> str:
     """Read the entire content from stdin."""
     return sys.stdin.read()
+
+
+def _handle_error(message: str) -> None:
+    """Print an error message to stderr and exit."""
+    print(f"Error: {message}", file=sys.stderr)
+    sys.exit(1)
+
+
+def _copy_to_clipboard(text: str) -> None:
+    """Copy the given text to the clipboard."""
+    try:
+        pyperclip.copy(text)
+    except pyperclip.PyperclipException as error:
+        _handle_error(f"Could not copy to clipboard. {error}")
+    else:
+        print("Copied to clipboard.", file=sys.stderr)
 
 
 def main() -> None:  # noqa: WPS210, WPS231
@@ -102,7 +115,7 @@ def main() -> None:  # noqa: WPS210, WPS231
             "computes the current TOTP code, and prints it."
         ),
         formatter_class=argparse.RawTextHelpFormatter,
-        epilog=f"License Information:\n{LICENSE_NOTICE}",
+        epilog=LICENSE_NOTICE,
     )
     parser.add_argument(
         "-c", "--copy", action="store_true", help="Copy the TOTP code to the clipboard."
@@ -112,28 +125,15 @@ def main() -> None:  # noqa: WPS210, WPS231
     try:
         stdin_content = read_stdin()
         totp_url = find_totp_url(stdin_content)
-    except ValueError as error:
-        print(f"Error: {error}", file=sys.stderr)
-        sys.exit(1)
-
-    try:
         totp_obj = get_totp_from_url(totp_url)
-    except ValueError as error:
-        print(f"Error: {error}", file=sys.stderr)
-        sys.exit(1)
+        totp_code = generate_totp(totp_obj)
+    except (ValueError, TypeError) as error:
+        _handle_error(str(error))
+        return
 
-    totp_code = generate_totp(totp_obj)
     print(totp_code)
-
     if args.copy:
-        try:
-            pyperclip.copy(totp_code)
-            print("Copied to clipboard.", file=sys.stderr)
-        except pyperclip.PyperclipException as error:
-            print(
-                f"Warning: Could not copy to clipboard. {error}",
-                file=sys.stderr,
-            )
+        _copy_to_clipboard(totp_code)
 
 
 if __name__ == "__main__":
