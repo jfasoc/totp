@@ -91,9 +91,19 @@ def read_stdin() -> str:
     return sys.stdin.read()
 
 
+def _print_stdout(message: str) -> None:
+    """Print a message to stdout."""
+    print(message)  # noqa: WPS421
+
+
+def _print_stderr(message: str) -> None:
+    """Print a message to stderr."""
+    print(message, file=sys.stderr)  # noqa: WPS421
+
+
 def _handle_error(message: str) -> None:
     """Print an error message to stderr and exit."""
-    print(f"Error: {message}", file=sys.stderr)
+    _print_stderr(f"Error: {message}")
     sys.exit(1)
 
 
@@ -104,10 +114,10 @@ def _copy_to_clipboard(text: str) -> None:
     except pyperclip.PyperclipException as error:
         _handle_error(f"Could not copy to clipboard. {error}")
     else:
-        print("Copied to clipboard.", file=sys.stderr)
+        _print_stderr("Copied to clipboard.")
 
 
-def main() -> None:  # noqa: WPS210, WPS231
+def main() -> None:
     """Run the main entry point of the application."""
     parser = argparse.ArgumentParser(
         description=(
@@ -126,15 +136,11 @@ def main() -> None:  # noqa: WPS210, WPS231
         stdin_content = read_stdin()
         totp_url = find_totp_url(stdin_content)
         totp_obj = get_totp_from_url(totp_url)
-        totp_code = generate_totp(totp_obj)
     except (ValueError, TypeError) as error:
         _handle_error(str(error))
         return
 
-    print(totp_code)
+    totp_code = generate_totp(totp_obj)
+    _print_stdout(totp_code)
     if args.copy:
         _copy_to_clipboard(totp_code)
-
-
-if __name__ == "__main__":
-    main()

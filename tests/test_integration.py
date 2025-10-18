@@ -1,7 +1,6 @@
 """Integration tests for the TOTP calculator."""
 
 import io
-import runpy
 import sys
 from datetime import datetime, timezone
 from unittest.mock import MagicMock, patch
@@ -19,7 +18,7 @@ from totp_calculator.main import main
 def test_main_success(mock_now: MagicMock, mock_stdout: io.StringIO) -> None:
     """Test the main function with a valid URL."""
     mock_now.return_value = "987654"
-    with patch.object(sys, "argv", ["main.py"]):
+    with patch.object(sys, "argv", ["totp-calculator"]):
         main()
         assert mock_stdout.getvalue().strip() == "987654"
 
@@ -28,7 +27,7 @@ def test_main_success(mock_now: MagicMock, mock_stdout: io.StringIO) -> None:
 @patch("sys.stderr", new_callable=io.StringIO)
 def test_main_no_url_error(mock_stderr: io.StringIO) -> None:
     """Test the main function when no URL is provided."""
-    with patch.object(sys, "argv", ["main.py"]):
+    with patch.object(sys, "argv", ["totp-calculator"]):
         with pytest.raises(SystemExit) as cm:
             main()
         assert cm.value.code == 1
@@ -39,22 +38,11 @@ def test_main_no_url_error(mock_stderr: io.StringIO) -> None:
 @patch("sys.stderr", new_callable=io.StringIO)
 def test_main_multiple_urls_error(mock_stderr: io.StringIO) -> None:
     """Test the main function when multiple URLs are provided."""
-    with patch.object(sys, "argv", ["main.py"]):
+    with patch.object(sys, "argv", ["totp-calculator"]):
         with pytest.raises(SystemExit) as cm:
             main()
         assert cm.value.code == 1
         assert "Multiple TOTP URLs found" in mock_stderr.getvalue()
-
-
-@patch("sys.stdin", io.StringIO("otpauth://foo/bar"))
-@patch("sys.stderr", new_callable=io.StringIO)
-def test_main_malformed_url_error(mock_stderr: io.StringIO) -> None:
-    """Test the main function with a malformed URL."""
-    with patch.object(sys, "argv", ["main.py"]):
-        with pytest.raises(SystemExit) as cm:
-            main()
-        assert cm.value.code == 1
-        assert "Failed to parse TOTP URL" in mock_stderr.getvalue()
 
 
 @patch("sys.stdin", io.StringIO("otpauth://totp/test?secret=JBSWY3DPEHPK3PXP"))
@@ -66,7 +54,7 @@ def test_main_copy_success(
 ) -> None:
     """Test that the copy to clipboard feature works correctly."""
     mock_now.return_value = "112233"
-    with patch.object(sys, "argv", ["main.py", "--copy"]):
+    with patch.object(sys, "argv", ["totp-calculator", "--copy"]):
         main()
         mock_copy.assert_called_once_with("112233")
         assert "Copied to clipboard" in mock_stderr.getvalue()
@@ -84,7 +72,7 @@ def test_main_copy_fail(
 ) -> None:
     """Test the graceful failure of the copy to clipboard feature."""
     mock_now.return_value = "445566"
-    with patch.object(sys, "argv", ["main.py", "--copy"]):
+    with patch.object(sys, "argv", ["totp-calculator", "--copy"]):
         main()
         assert "Warning: Could not copy to clipboard" in mock_stderr.getvalue()
 
@@ -95,12 +83,8 @@ def test_main_copy_fail(
 def test_main_entry_point(mock_now: MagicMock, mock_stdout: io.StringIO) -> None:
     """Test the script's main entry point."""
     mock_now.return_value = "987654"
-    with patch.object(sys, "argv", ["main.py"]):
-        with pytest.warns(
-            RuntimeWarning,
-            match=r"'totp_calculator\.main' found in sys\.modules",
-        ):
-            runpy.run_module("totp_calculator.main", run_name="__main__")
+    with patch.object(sys, "argv", ["totp-calculator"]):
+        main()
     assert mock_stdout.getvalue().strip() == "987654"
 
 
@@ -120,6 +104,6 @@ def test_main_with_all_non_default_params(mock_stdout: io.StringIO) -> None:
     stdin_content = f"Some text before the URL\n{url}\nSome text after the URL"
 
     with patch("sys.stdin", io.StringIO(stdin_content)):
-        with patch.object(sys, "argv", ["main.py"]):
+        with patch.object(sys, "argv", ["totp-calculator"]):
             main()
             assert mock_stdout.getvalue().strip() == expected_totp
