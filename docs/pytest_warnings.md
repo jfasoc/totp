@@ -2,9 +2,9 @@
 
 This document explains the rationale behind the specific warning configurations in the `pyproject.toml` file.
 
-## Ignored `RuntimeWarning`
+## Handled `RuntimeWarning`
 
-In our `pytest` configuration, we have a general policy to treat all warnings as errors (`filterwarnings = "error"`). However, we make a specific exception for the following warning:
+In our `pytest` configuration, we have a general policy to treat all warnings as errors (`filterwarnings = "error"`). However, we have a specific case where a `RuntimeWarning` is expected and handled.
 
 ```
 RuntimeWarning: 'totp_calculator.main' found in sys.modules after import of package 'totp_calculator', but prior to execution of 'totp_calculator.main'; this may result in unpredictable behaviour
@@ -22,8 +22,10 @@ The `pytest` test runner discovers and imports all test files and the modules th
 
 When `runpy.run_module` is called, it also loads the module, leading to a situation where the module is present in `sys.modules` before `runpy` executes it. This is what triggers the `RuntimeWarning`.
 
-### Why It Is Safe to Ignore
+### How the Warning Is Handled
 
 In the context of this specific test, this double-loading behavior is expected and does not cause any unpredictable behavior. The test is designed to work correctly under these conditions.
 
-Ignoring this warning allows us to maintain our strict "no warnings as errors" policy for all other situations while still being able to test the main entry point of our application, thus ensuring 100% test coverage.
+Instead of globally ignoring the warning, we use the `pytest.warns` context manager directly in the `test_main_entry_point` function. This asserts that the `RuntimeWarning` is raised, effectively acknowledging and "catching" it in the one specific place where it is expected.
+
+This approach allows us to maintain our strict "no warnings as errors" policy across the entire project while still being able to test the main entry point of our application, thus ensuring 100% test coverage.

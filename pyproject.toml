@@ -19,11 +19,7 @@ package-dir = "src"
 
 [tool.pytest.ini_options]
 addopts = "--cov=src --cov-fail-under=100"
-filterwarnings = [
-    "error",
-    # See docs/pytest_warnings.md for an explanation of this exception.
-    "ignore:.*'totp_calculator.main' found in sys.modules after import of package 'totp_calculator'.*",
-]
+filterwarnings = "error"
 
 [tool.black]
 line-length = 88
