@@ -79,5 +79,5 @@ def test_get_totp_from_url_hotp() -> None:
 def test_get_totp_from_url_malformed() -> None:
     """Test that an error is raised for a malformed URL."""
     url = "http://example.com"
-    with pytest.raises(ValueError, match="Failed to parse TOTP URL"):
+    with pytest.raises(ValueError, match="Not an otpauth URI"):
         get_totp_from_url(url)

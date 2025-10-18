@@ -82,15 +82,10 @@ def get_totp_from_url(url: str) -> pyotp.TOTP:
     Raises:
         ValueError: If the URL is malformed.
     """
-    try:
-        # We need to cast the result of parse_uri to TOTP, because it's defined as
-        # -> Union[TOTP, HOTP] and this application only supports TOTP.
-        totp = pyotp.parse_uri(url)
-        if not isinstance(totp, pyotp.TOTP):
-            raise TypeError("Only TOTP is supported.")
-        return totp
-    except Exception as e:
-        raise ValueError(f"Failed to parse TOTP URL: {e}") from e
+    totp = pyotp.parse_uri(url)
+    if not isinstance(totp, pyotp.TOTP):
+        raise ValueError("Only TOTP is supported.")
+    return totp
 
 
 def read_stdin() -> str:
@@ -125,8 +120,8 @@ def main() -> None:
             try:
                 pyperclip.copy(totp_code)
                 print("Copied to clipboard.", file=sys.stderr)
-            except pyperclip.PyperclipException as e:
-                print(f"Warning: Could not copy to clipboard. {e}", file=sys.stderr)
+            except pyperclip.PyperclipException:
+                print("Warning: Could not copy to clipboard.", file=sys.stderr)
 
     except ValueError as e:
         print(f"Error: {e}", file=sys.stderr)
