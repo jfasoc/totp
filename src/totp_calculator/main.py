@@ -5,7 +5,6 @@ This module provides a command-line tool to calculate TOTP codes from URLs.
 import argparse
 import re
 import sys
-from urllib.parse import parse_qs, urlparse
 
 import pyotp
 import pyperclip
@@ -29,24 +28,23 @@ copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+AUTHORS OR COPYRIGHT HOLDERS be LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
 
-def generate_totp(secret: str) -> str:
+def generate_totp(totp: pyotp.TOTP) -> str:
     """
-    Generates a Time-Based One-Time Password (TOTP) from a given secret.
+    Generates a Time-Based One-Time Password (TOTP).
 
     Args:
-        secret: The base32 encoded secret key.
+        totp: The TOTP object.
 
     Returns:
         The current TOTP code as a string.
     """
-    totp = pyotp.TOTP(secret)
     return totp.now()
 
 
@@ -71,27 +69,28 @@ def find_totp_url(text: str) -> str:
     return urls[0]
 
 
-def get_secret_from_url(url: str) -> str:
+def get_totp_from_url(url: str) -> pyotp.TOTP:
     """
-    Extracts the secret from a TOTP URL.
+    Parses a TOTP URL and returns a TOTP object.
 
     Args:
         url: The TOTP URL.
 
     Returns:
-        The secret key.
+        A TOTP object.
 
     Raises:
-        ValueError: If the URL is malformed or the secret is missing.
+        ValueError: If the URL is malformed.
     """
     try:
-        parsed_url = urlparse(url)
-        query_params = parse_qs(parsed_url.query)
-        if "secret" not in query_params:
-            raise ValueError("The TOTP URL is missing the 'secret' parameter.")
-        return query_params["secret"][0]
+        # We need to cast the result of parse_uri to TOTP, because it's defined as
+        # -> Union[TOTP, HOTP] and this application only supports TOTP.
+        totp = pyotp.parse_uri(url)
+        if not isinstance(totp, pyotp.TOTP):
+            raise TypeError("Only TOTP is supported.")
+        return totp
     except Exception as e:
-        raise ValueError(f"Failed to parse TOTP URL: {e}")
+        raise ValueError(f"Failed to parse TOTP URL: {e}") from e
 
 
 def read_stdin() -> str:
@@ -117,8 +116,8 @@ def main() -> None:
     try:
         stdin_content = read_stdin()
         totp_url = find_totp_url(stdin_content)
-        secret = get_secret_from_url(totp_url)
-        totp_code = generate_totp(secret)
+        totp_obj = get_totp_from_url(totp_url)
+        totp_code = generate_totp(totp_obj)
 
         print(totp_code)
 
