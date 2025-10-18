@@ -6,10 +6,12 @@ import io
 import runpy
 import sys
 import unittest
+from datetime import datetime, timezone
 from unittest.mock import MagicMock, patch
 
 import pyotp
 import pyperclip
+from freezegun import freeze_time
 
 from totp_calculator.main import (
     find_totp_url,
@@ -158,6 +160,27 @@ class TestTotpCalculator(unittest.TestCase):
         with patch.object(sys, "argv", ["main.py"]):
             runpy.run_module("totp_calculator.main", run_name="__main__")
         self.assertEqual(mock_stdout.getvalue().strip(), "987654")
+
+    @freeze_time(datetime(2023, 1, 1, 1, 1, 1, tzinfo=timezone.utc))
+    @patch("sys.stdout", new_callable=io.StringIO)
+    def test_main_with_all_non_default_params(self, mock_stdout: io.StringIO) -> None:
+        """
+        Test the main function with a TOTP URL that has all non-default parameters.
+        """
+        url = (
+            "otpauth://totp/Test:user@example.com?secret=JBSWY3DPEHPK3PXP"
+            "&issuer=Test&algorithm=SHA512&digits=7&period=45"
+        )
+        # This is the expected TOTP code for the given time and parameters.
+        # It can be manually verified or generated using a trusted tool.
+        totp = pyotp.TOTP("JBSWY3DPEHPK3PXP", digits=7, digest="sha512", interval=45)
+        expected_totp = totp.now()
+        stdin_content = f"Some text before the URL\n{url}\nSome text after the URL"
+
+        with patch("sys.stdin", io.StringIO(stdin_content)):
+            with patch.object(sys, "argv", ["main.py"]):
+                main()
+                self.assertEqual(mock_stdout.getvalue().strip(), expected_totp)
 
 
 if __name__ == "__main__":
