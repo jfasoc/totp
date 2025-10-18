@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:08e0c59cf26e7ec5fcf57a22a15b5bf435da47334a69cf462584e1714e44057a"
+content_hash = "sha256:0a7054aae0cf01deda9298e5706d3b26590a3c4457d6199e7a2a5817726789f5"
 
 [[metadata.targets]]
 requires_python = ">=3.10"
@@ -586,6 +586,17 @@ files = [
     {file = "tomli-2.3.0-cp314-cp314t-win_amd64.whl", hash = "sha256:70a251f8d4ba2d9ac2542eecf008b3c8a9fc5c3f9f02c56a9d7952612be2fdba"},
     {file = "tomli-2.3.0-py3-none-any.whl", hash = "sha256:e95b1af3c5b07d9e643909b5abbec77cd9f1217e6d0bca72b0234736b9fb1f1b"},
     {file = "tomli-2.3.0.tar.gz", hash = "sha256:64be704a875d2a59753d80ee8a533c3fe183e3f06807ff7dc2232938ccb01549"},
+]
+
+[[package]]
+name = "types-pyperclip"
+version = "1.9.0.20250801"
+requires_python = ">=3.9"
+summary = "Typing stubs for pyperclip"
+groups = ["dev"]
+files = [
+    {file = "types_pyperclip-1.9.0.20250801-py3-none-any.whl", hash = "sha256:73ad08721a2380506549027d5b13a8b360db909a2480649e728a37d836c36456"},
+    {file = "types_pyperclip-1.9.0.20250801.tar.gz", hash = "sha256:37eb1b8f6989ccc1ec2f80e2984316f74ccd2aedb385331c210252928ffc3a1f"},
 ]
 
 [[package]]

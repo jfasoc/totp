@@ -1,9 +1,15 @@
+"""
+This module provides a command-line tool to calculate TOTP codes from URLs.
+"""
+
 import argparse
-import pyotp
-import pyperclip
 import re
 import sys
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import parse_qs, urlparse
+
+import pyotp
+import pyperclip
+
 
 LICENSE_NOTICE = """
 MIT License
@@ -29,6 +35,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+
 def generate_totp(secret: str) -> str:
     """
     Generates a Time-Based One-Time Password (TOTP) from a given secret.
@@ -41,6 +48,7 @@ def generate_totp(secret: str) -> str:
     """
     totp = pyotp.TOTP(secret)
     return totp.now()
+
 
 def find_totp_url(text: str) -> str:
     """
@@ -55,12 +63,13 @@ def find_totp_url(text: str) -> str:
     Raises:
         ValueError: If no TOTP URL is found or multiple URLs are found.
     """
-    urls = re.findall(r'otpauth://[^\s]+', text)
+    urls = re.findall(r"otpauth://[^\s]+", text)
     if len(urls) == 0:
         raise ValueError("No TOTP URL found in the input.")
     if len(urls) > 1:
         raise ValueError("Multiple TOTP URLs found in the input.")
     return urls[0]
+
 
 def get_secret_from_url(url: str) -> str:
     """
@@ -78,27 +87,30 @@ def get_secret_from_url(url: str) -> str:
     try:
         parsed_url = urlparse(url)
         query_params = parse_qs(parsed_url.query)
-        if 'secret' not in query_params:
+        if "secret" not in query_params:
             raise ValueError("The TOTP URL is missing the 'secret' parameter.")
-        return query_params['secret'][0]
+        return query_params["secret"][0]
     except Exception as e:
         raise ValueError(f"Failed to parse TOTP URL: {e}")
+
 
 def read_stdin() -> str:
     """Reads the entire content from stdin."""
     return sys.stdin.read()
 
-def main():
+
+def main() -> None:
     """The main entry point of the application."""
     parser = argparse.ArgumentParser(
-        description="Scans for a TOTP URL from stdin, computes the current TOTP code, and prints it.",
+        description=(
+            "Scans for a TOTP URL from stdin, "
+            "computes the current TOTP code, and prints it."
+        ),
         formatter_class=argparse.RawTextHelpFormatter,
-        epilog=f"License Information:\n{LICENSE_NOTICE}"
+        epilog=f"License Information:\n{LICENSE_NOTICE}",
     )
     parser.add_argument(
-        "-c", "--copy",
-        action="store_true",
-        help="Copy the TOTP code to the clipboard."
+        "-c", "--copy", action="store_true", help="Copy the TOTP code to the clipboard."
     )
     args = parser.parse_args()
 
@@ -120,6 +132,7 @@ def main():
     except ValueError as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
