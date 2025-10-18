@@ -9,7 +9,6 @@ import unittest
 from datetime import datetime, timezone
 from unittest.mock import MagicMock, patch
 
-import pyotp
 import pyperclip
 from freezegun import freeze_time
 
@@ -106,9 +105,10 @@ class TestTotpCalculatorIntegration(unittest.TestCase):
             "&issuer=Test&algorithm=SHA512&digits=7&period=45"
         )
         # This is the expected TOTP code for the given time and parameters.
-        # It can be manually verified or generated using a trusted tool.
-        totp = pyotp.TOTP("JBSWY3DPEHPK3PXP", digits=7, digest="sha512", interval=45)
-        expected_totp = totp.now()
+        # It was generated using the following command:
+        # oathtool --totp=SHA512 --base32 --digits=7 --time-step-size=45s \
+        # "JBSWY3DPEHPK3PXP" --now "2023-01-01 01:01:01 UTC"
+        expected_totp = "1989734"
         stdin_content = f"Some text before the URL\n{url}\nSome text after the URL"
 
         with patch("sys.stdin", io.StringIO(stdin_content)):
