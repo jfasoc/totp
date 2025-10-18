@@ -5,11 +5,8 @@ from unittest.mock import patch
 import pyotp
 import pytest
 
-from totp_calculator.main import (
-    find_totp_url,
-    generate_totp,
-    get_totp_from_url,
-)
+from totp_calculator.main import (find_totp_url, generate_totp,
+                                  get_totp_from_url)
 
 
 def test_generate_totp() -> None:
@@ -24,9 +21,7 @@ def test_generate_totp() -> None:
 def test_find_totp_url_single() -> None:
     """Test that a single TOTP URL is found correctly."""
     text = "Here is a TOTP URL: otpauth://totp/test?secret=JBSWY3DPEHPK3PXP"
-    assert (
-        find_totp_url(text) == "otpauth://totp/test?secret=JBSWY3DPEHPK3PXP"
-    )
+    assert find_totp_url(text) == "otpauth://totp/test?secret=JBSWY3DPEHPK3PXP"
 
 
 def test_find_totp_url_multiple() -> None:
