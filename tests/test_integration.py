@@ -93,7 +93,10 @@ class TestTotpCalculatorIntegration(unittest.TestCase):
         """Test the script's main entry point."""
         mock_now.return_value = "987654"
         with patch.object(sys, "argv", ["main.py"]):
-            with pytest.warns(RuntimeWarning):
+            with pytest.warns(
+                RuntimeWarning,
+                match=r"'totp_calculator\.main' found in sys\.modules",
+            ):
                 runpy.run_module("totp_calculator.main", run_name="__main__")
         self.assertEqual(mock_stdout.getvalue().strip(), "987654")
 

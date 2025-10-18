@@ -26,6 +26,6 @@ When `runpy.run_module` is called, it also loads the module, leading to a situat
 
 In the context of this specific test, this double-loading behavior is expected and does not cause any unpredictable behavior. The test is designed to work correctly under these conditions.
 
-Instead of globally ignoring the warning, we use the `pytest.warns` context manager directly in the `test_main_entry_point` function. This asserts that the `RuntimeWarning` is raised, effectively acknowledging and "catching" it in the one specific place where it is expected.
+Instead of globally ignoring the warning, we use the `pytest.warns` context manager directly in the `test_main_entry_point` function. To make this even more robust, we use the `match` parameter to ensure we are catching the exact warning message we expect. This asserts that the `RuntimeWarning` is raised, effectively acknowledging and "catching" it in the one specific place where it is expected.
 
 This approach allows us to maintain our strict "no warnings as errors" policy across the entire project while still being able to test the main entry point of our application, thus ensuring 100% test coverage.
