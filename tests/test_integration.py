@@ -46,6 +46,17 @@ def test_main_multiple_urls_error(mock_stderr: io.StringIO) -> None:
         assert "Multiple TOTP URLs found" in mock_stderr.getvalue()
 
 
+@patch("sys.stdin", io.StringIO("otpauth://foo/bar"))
+@patch("sys.stderr", new_callable=io.StringIO)
+def test_main_malformed_url_error(mock_stderr: io.StringIO) -> None:
+    """Test the main function with a malformed URL."""
+    with patch.object(sys, "argv", ["main.py"]):
+        with pytest.raises(SystemExit) as cm:
+            main()
+        assert cm.value.code == 1
+        assert "Failed to parse TOTP URL" in mock_stderr.getvalue()
+
+
 @patch("sys.stdin", io.StringIO("otpauth://totp/test?secret=JBSWY3DPEHPK3PXP"))
 @patch("pyotp.TOTP.now")
 @patch("pyperclip.copy")
