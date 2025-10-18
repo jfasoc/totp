@@ -63,7 +63,7 @@ def find_totp_url(text: str) -> str:
     Raises:
         ValueError: If no TOTP URL is found or multiple URLs are found.
     """
-    urls = re.findall(r"otpauth://[^\s]+", text)
+    urls: list[str] = re.findall(r"otpauth://[^\s]+", text)
     if len(urls) == 0:
         raise ValueError("No TOTP URL found in the input.")
     if len(urls) > 1:
