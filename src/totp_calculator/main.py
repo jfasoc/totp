@@ -9,7 +9,6 @@ import sys
 import pyotp
 import pyperclip
 
-
 LICENSE_NOTICE = """
 MIT License
 

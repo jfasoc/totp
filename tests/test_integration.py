@@ -37,9 +37,7 @@ def test_main_no_url_error(mock_stderr: io.StringIO) -> None:
         assert "No TOTP URL found" in mock_stderr.getvalue()
 
 
-@patch(
-    "sys.stdin", io.StringIO("otpauth://totp/a?secret=1 otpauth://totp/b?secret=2")
-)
+@patch("sys.stdin", io.StringIO("otpauth://totp/a?secret=1 otpauth://totp/b?secret=2"))
 @patch("sys.stderr", new_callable=io.StringIO)
 def test_main_multiple_urls_error(mock_stderr: io.StringIO) -> None:
     """Test the main function when multiple URLs are provided."""
@@ -85,9 +83,7 @@ def test_main_copy_fail(
 @patch("sys.stdin", io.StringIO("otpauth://totp/test?secret=JBSWY3DPEHPK3PXP"))
 @patch("sys.stdout", new_callable=io.StringIO)
 @patch("pyotp.TOTP.now")
-def test_main_entry_point(
-    mock_now: MagicMock, mock_stdout: io.StringIO
-) -> None:
+def test_main_entry_point(mock_now: MagicMock, mock_stdout: io.StringIO) -> None:
     """Test the script's main entry point."""
     mock_now.return_value = "987654"
     with patch.object(sys, "argv", ["main.py"]):
