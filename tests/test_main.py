@@ -2,7 +2,6 @@
 Unit tests for the TOTP calculator.
 """
 
-import sys
 from unittest.mock import patch
 
 import pyotp

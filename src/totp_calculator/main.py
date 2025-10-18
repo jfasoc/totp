@@ -5,6 +5,7 @@ This module provides a command-line tool to calculate TOTP codes from URLs.
 import argparse
 import re
 import sys
+
 import pyotp
 import pyperclip
 

@@ -8,3 +8,5 @@ exclude =
 max-complexity = 10
 werror = true
 max-annotations-complexity = 2
+per-file-ignores =
+    tests/*:S101,S105
