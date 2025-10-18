@@ -83,8 +83,8 @@ def get_totp_from_url(url: str) -> pyotp.TOTP:
         if not isinstance(totp, pyotp.TOTP):
             raise TypeError("Only TOTP is supported.")
         return totp
-    except Exception as e:
-        raise ValueError(f"Failed to parse TOTP URL: {e}") from e
+    except Exception as exc:
+        raise ValueError(f"Failed to parse TOTP URL: {exc}") from exc
 
 
 def read_stdin() -> str:
@@ -119,11 +119,11 @@ def main() -> None:
             try:
                 pyperclip.copy(totp_code)
                 sys.stderr.write("Copied to clipboard.\n")
-            except pyperclip.PyperclipException as e:
-                sys.stderr.write(f"Warning: Could not copy to clipboard. {e}\n")
+            except pyperclip.PyperclipException as exc:
+                sys.stderr.write(f"Warning: Could not copy to clipboard. {exc}\n")
 
-    except ValueError as e:
-        sys.stderr.write(f"Error: {e}\n")
+    except ValueError as exc:
+        sys.stderr.write(f"Error: {exc}\n")
         sys.exit(1)
 
 
