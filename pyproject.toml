@@ -21,6 +21,9 @@ package-dir = "src"
 addopts = "--cov=src --cov-fail-under=100"
 filterwarnings = "error"
 
+[tool.isort]
+profile = "black"
+
 [tool.black]
 line-length = 88
 

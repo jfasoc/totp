@@ -5,8 +5,7 @@ from unittest.mock import patch
 
 import pyotp
 
-from totp_calculator.main import (find_totp_url, generate_totp,
-                                  get_totp_from_url)
+from totp_calculator.main import find_totp_url, generate_totp, get_totp_from_url
 
 
 class TestTotpCalculator(unittest.TestCase):
