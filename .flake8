@@ -7,4 +7,6 @@ exclude =
     dist
 max-complexity = 10
 werror = true
-per-file-ignores = tests/*:S101
+per-file-ignores = 
+    tests/*:S101,WPS226,WPS432,WPS202,WPS218 
+    src/*:WPS111,WPS229,WPS231,WPS210,WPS421,WPS505,WPS111
