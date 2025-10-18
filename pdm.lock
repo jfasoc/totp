@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:7eda2b56317eb5fe53b98cd03ec9419a474e28c45a34c5d57f012b0b985f294e"
+content_hash = "sha256:92ffe5295736f97a15ff4d9d7a7a955cb0fd295a44d43836c6c1da5246600c4f"
 
 [[metadata.targets]]
 requires_python = ">=3.10"
@@ -490,6 +490,31 @@ dependencies = [
 files = [
     {file = "flake8_isort-6.1.2-py3-none-any.whl", hash = "sha256:549197dedf0273502fb74f04c080beed9e62a7eb70244610413d27052e78bd3b"},
     {file = "flake8_isort-6.1.2.tar.gz", hash = "sha256:9d0452acdf0e1cd6f2d6848e3605e66b54d920e73471fb4744eef0f93df62d5d"},
+]
+
+[[package]]
+name = "flake8-plugin-utils"
+version = "1.3.3"
+requires_python = ">=3.6,<4.0"
+summary = "The package provides base classes and utils for flake8 plugin writing"
+groups = ["dev"]
+files = [
+    {file = "flake8-plugin-utils-1.3.3.tar.gz", hash = "sha256:39f6f338d038b301c6fd344b06f2e81e382b68fa03c0560dff0d9b1791a11a2c"},
+    {file = "flake8_plugin_utils-1.3.3-py3-none-any.whl", hash = "sha256:e4848c57d9d50f19100c2d75fa794b72df068666a9041b4b0409be923356a3ed"},
+]
+
+[[package]]
+name = "flake8-pytest-style"
+version = "2.1.0"
+requires_python = ">=3.9"
+summary = "A flake8 plugin checking common style issues or inconsistencies with pytest-based tests."
+groups = ["dev"]
+dependencies = [
+    "flake8-plugin-utils<2.0.0,>=1.3.2",
+]
+files = [
+    {file = "flake8_pytest_style-2.1.0-py3-none-any.whl", hash = "sha256:a0d6dddcd533bfc13f19b8445907be0330c5e6ccf7090bcd9d5fa5a0b1b65e71"},
+    {file = "flake8_pytest_style-2.1.0.tar.gz", hash = "sha256:fee6befdb5915d600ef24e38d48a077d0dcffb032945ae0169486e7ff8a1079a"},
 ]
 
 [[package]]
@@ -1010,4 +1035,20 @@ groups = ["dev"]
 files = [
     {file = "typing_extensions-4.15.0-py3-none-any.whl", hash = "sha256:f0fa19c6845758ab08074a0cfa8b7aecb71c999ca73d62883bc25cc018c4e548"},
     {file = "typing_extensions-4.15.0.tar.gz", hash = "sha256:0cea48d173cc12fa28ecabc3b837ea3cf6f38c6d1136f85cbaaf598984861466"},
+]
+
+[[package]]
+name = "wemake-python-styleguide"
+version = "1.4.0"
+requires_python = "<4.0,>=3.10"
+summary = "The strictest and most opinionated python linter ever"
+groups = ["dev"]
+dependencies = [
+    "attrs",
+    "flake8<8.0,>=7.3",
+    "pygments<3.0,>=2.19",
+]
+files = [
+    {file = "wemake_python_styleguide-1.4.0-py3-none-any.whl", hash = "sha256:c0727475a20a1b7d59f1d806040e84768bdb0935d1147023453aa44c14b65c95"},
+    {file = "wemake_python_styleguide-1.4.0.tar.gz", hash = "sha256:0964cf40ac4d3f1c89dd79aee4b6edba9a1806fb395836c73e746fe287dbae3e"},
 ]
