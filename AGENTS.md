@@ -9,6 +9,7 @@ This document outlines the standards and requirements for contributing to this p
 
 ## Testing and Quality
 
+- **No Warnings**: Warnings in tests and checks are not allowed and will be treated as errors.
 - **100% Test Coverage**: All code must be covered by tests. It is not allowed to exclude any code from test coverage. Use `pdm run pytest` to run the tests and check coverage.
 - **Code Formatting**: Code is formatted with `black`. Run `pdm run black .` to format the code.
 - **Style Checking**: Code style is checked with `flake8`. Run `pdm run flake8 .` to check the style.
