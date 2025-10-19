@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:ffa9945e3b776fe162a55a2e21ab80fcf3d1209c3e90c25f4912d17d3b8c54de"
+content_hash = "sha256:910f9c77a2c386068d4c40651f50d8cf2b298efa7231ac6dd2396ffb4a0889da"
 
 [[metadata.targets]]
 requires_python = ">=3.10"
@@ -73,6 +73,17 @@ files = [
     {file = "black-25.9.0-cp313-cp313-win_amd64.whl", hash = "sha256:846d58e3ce7879ec1ffe816bb9df6d006cd9590515ed5d17db14e17666b2b357"},
     {file = "black-25.9.0-py3-none-any.whl", hash = "sha256:474b34c1342cdc157d307b56c4c65bce916480c4a8f6551fdc6bf9b486a7c4ae"},
     {file = "black-25.9.0.tar.gz", hash = "sha256:0474bca9a0dd1b51791fcc507a4e02078a1c63f6d4e4ae5544b9848c7adfb619"},
+]
+
+[[package]]
+name = "classify-imports"
+version = "4.2.0"
+requires_python = ">=3.7"
+summary = "Utilities for refactoring imports in python-like syntax."
+groups = ["dev"]
+files = [
+    {file = "classify_imports-4.2.0-py2.py3-none-any.whl", hash = "sha256:dbbc264b70a470ed8c6c95976a11dfb8b7f63df44ed1af87328bbed2663f5161"},
+    {file = "classify_imports-4.2.0.tar.gz", hash = "sha256:7abfb7ea92149b29d046bd34573d247ba6e68cc28100c801eba4af17964fc40e"},
 ]
 
 [[package]]
@@ -529,6 +540,21 @@ dependencies = [
 files = [
     {file = "flake8_pytest_style-2.1.0-py3-none-any.whl", hash = "sha256:a0d6dddcd533bfc13f19b8445907be0330c5e6ccf7090bcd9d5fa5a0b1b65e71"},
     {file = "flake8_pytest_style-2.1.0.tar.gz", hash = "sha256:fee6befdb5915d600ef24e38d48a077d0dcffb032945ae0169486e7ff8a1079a"},
+]
+
+[[package]]
+name = "flake8-type-checking"
+version = "3.0.0"
+requires_python = ">=3.9"
+summary = "A flake8 plugin for managing type-checking imports & forward references"
+groups = ["dev"]
+dependencies = [
+    "classify-imports",
+    "flake8",
+]
+files = [
+    {file = "flake8_type_checking-3.0.0-py3-none-any.whl", hash = "sha256:e9dfb370d246414e0a25033b1826be5b1499787370b8e2c3f9696c44530e3f65"},
+    {file = "flake8_type_checking-3.0.0.tar.gz", hash = "sha256:acd5c08cc618e9b3a6257246e5cdf5c0d5b2ba2c5120e20df880823fe84de738"},
 ]
 
 [[package]]
