@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:92ffe5295736f97a15ff4d9d7a7a955cb0fd295a44d43836c6c1da5246600c4f"
+content_hash = "sha256:b13c5921fb794a8f91c9c7b4d1b53c2b911dcda3fc8cb94ce82efa63f2f150bf"
 
 [[metadata.targets]]
 requires_python = ">=3.10"
@@ -350,6 +350,20 @@ dependencies = [
 files = [
     {file = "flake8-7.3.0-py2.py3-none-any.whl", hash = "sha256:b9696257b9ce8beb888cdbe31cf885c90d31928fe202be0889a7cdafad32f01e"},
     {file = "flake8-7.3.0.tar.gz", hash = "sha256:fe044858146b9fc69b551a4b490d69cf960fcb78ad1edcb84e7fbb1b4a8e3872"},
+]
+
+[[package]]
+name = "flake8-annotations"
+version = "3.2.0"
+requires_python = ">=3.10"
+summary = "Flake8 Type Annotation Checks"
+groups = ["dev"]
+dependencies = [
+    "flake8>=5.0",
+]
+files = [
+    {file = "flake8_annotations-3.2.0-py3-none-any.whl", hash = "sha256:2b0203cac0eb33c43463f1a986c3cc70a448d9d593da75567173f46f64e9213c"},
+    {file = "flake8_annotations-3.2.0.tar.gz", hash = "sha256:71b52ec85a4ec82a10edfad497fe2b390609c95b2ad7d61cc94704bc88a498a0"},
 ]
 
 [[package]]
