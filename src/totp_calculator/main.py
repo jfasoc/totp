@@ -109,8 +109,15 @@ def _get_totp_from_stdin(stdin_content: str) -> pyotp.TOTP:
     return get_totp_from_url(totp_url)
 
 
-def main() -> None:
-    """Run the main entry point of the application."""
+def parse_args(argv: list[str]) -> argparse.Namespace:
+    """Parse command-line arguments.
+
+    Args:
+        argv: The list of command-line arguments.
+
+    Returns:
+        The parsed arguments.
+    """
     parser = argparse.ArgumentParser(
         description=(
             "Scans for a TOTP URL from stdin, "
@@ -122,7 +129,12 @@ def main() -> None:
     parser.add_argument(
         "-c", "--copy", action="store_true", help="Copy the TOTP code to the clipboard."
     )
-    args = parser.parse_args()
+    return parser.parse_args(argv)
+
+
+def main() -> None:
+    """Run the main entry point of the application."""
+    args = parse_args(sys.argv[1:])
 
     stdin_content = read_stdin()
     try:

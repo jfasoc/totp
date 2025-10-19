@@ -6,7 +6,12 @@ import pyotp
 import pytest
 from typing_extensions import Self
 
-from totp_calculator.main import find_totp_url, generate_totp, get_totp_from_url
+from totp_calculator.main import (
+    find_totp_url,
+    generate_totp,
+    get_totp_from_url,
+    parse_args,
+)
 
 
 @pytest.fixture
@@ -96,3 +101,22 @@ class TestGetTotpFromUrl:
         url = "http://example.com"
         with pytest.raises(ValueError, match="Failed to parse TOTP URL"):
             get_totp_from_url(url)
+
+
+class TestParseArgs:
+    """Tests for the `parse_args` function."""
+
+    def test_parse_args_no_args(self: Self) -> None:
+        """Test that parsing with no arguments works correctly."""
+        args = parse_args([])
+        assert not args.copy
+
+    def test_parse_args_copy_short(self: Self) -> None:
+        """Test that the short copy argument is parsed correctly."""
+        args = parse_args(["-c"])
+        assert args.copy
+
+    def test_parse_args_copy_long(self: Self) -> None:
+        """Test that the long copy argument is parsed correctly."""
+        args = parse_args(["--copy"])
+        assert args.copy
