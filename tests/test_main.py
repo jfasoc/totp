@@ -58,12 +58,14 @@ def test_get_totp_from_url_all_params(secret: str) -> None:
     )
     totp = get_totp_from_url(url)
     assert isinstance(totp, pyotp.TOTP)
-    assert totp.name == "user@example.com"
-    assert totp.issuer == "Test"
-    assert totp.secret == secret
-    assert totp.digits == 8
-    assert totp.interval == 60
-    assert totp.digest().name == "sha256"
+    assert (
+        totp.name,
+        totp.issuer,
+        totp.secret,
+        totp.digits,
+        totp.interval,
+        totp.digest().name,
+    ) == ("user@example.com", "Test", secret, 8, 60, "sha256")
 
 
 def test_get_totp_from_url_hotp(secret: str) -> None:
