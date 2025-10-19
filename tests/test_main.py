@@ -1,10 +1,10 @@
 """Unit tests for the TOTP calculator."""
 
-from typing import Self
 from unittest.mock import patch
 
 import pyotp
 import pytest
+from typing_extensions import Self
 
 from totp_calculator.main import find_totp_url, generate_totp, get_totp_from_url
 
