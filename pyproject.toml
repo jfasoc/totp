@@ -17,6 +17,10 @@ license = {text = "MIT"}
 [project.scripts]
 totp-calculator = "totp_calculator.main:main"
 
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
 [tool.pdm]
 distribution = true
 package-dir = "src"
