@@ -8,4 +8,4 @@ exclude =
 max-complexity = 10
 werror = true
 per-file-ignores = 
-    tests/*:S101,WPS226,WPS432,WPS202
+    tests/*:S101,WPS226,WPS432
