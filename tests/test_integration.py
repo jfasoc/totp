@@ -93,7 +93,24 @@ def test_main_entry_point(mock_now: MagicMock, mock_stdout: io.StringIO) -> None
     assert mock_stdout.getvalue().strip() == "987654"
 
 
-@freeze_time(datetime(2023, 1, 1, 1, 1, 1, tzinfo=timezone.utc))
+TEST_YEAR = 2023
+TEST_MONTH = 1
+TEST_DAY = 1
+TEST_HOUR = 1
+TEST_MINUTE = 1
+TEST_SECOND = 1
+TEST_DATETIME = datetime(
+    TEST_YEAR,
+    TEST_MONTH,
+    TEST_DAY,
+    TEST_HOUR,
+    TEST_MINUTE,
+    TEST_SECOND,
+    tzinfo=timezone.utc,
+)
+
+
+@freeze_time(TEST_DATETIME)
 @patch("sys.stdout", new_callable=io.StringIO)
 def test_main_with_all_non_default_params(mock_stdout: io.StringIO) -> None:
     """Test main with a TOTP URL that has all non-default parameters."""
