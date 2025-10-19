@@ -18,12 +18,13 @@ def secret() -> str:
 class TestGenerateTotp:
     """Tests for the `generate_totp` function."""
 
-    def test_generate_totp(self: Self, secret: str) -> None:
-        """Test that TOTP codes are generated correctly."""
+    @pytest.mark.parametrize("totp_code", ["123456", "000000", "999999"])
+    def test_generate_totp(self: Self, secret: str, totp_code: str) -> None:
+        """Test that TOTP codes are generated correctly with different values."""
         totp = pyotp.TOTP(secret)
         with patch.object(totp, "now") as mock_now:
-            mock_now.return_value = "123456"
-            assert generate_totp(totp) == "123456"
+            mock_now.return_value = totp_code
+            assert generate_totp(totp) == totp_code
 
 
 class TestFindTotpUrl:
@@ -40,9 +41,19 @@ class TestFindTotpUrl:
         with pytest.raises(ValueError, match="Multiple TOTP URLs found"):
             find_totp_url(text)
 
-    def test_find_totp_url_none(self: Self) -> None:
+    @pytest.mark.parametrize(
+        "text",
+        [
+            "There is no URL here.",
+            "Just some random text without URLs",
+            "otpauthwithoutslashes",
+            "",  # empty string
+            "123456789",
+            "http://example.com",
+        ],
+    )
+    def test_find_totp_url_none(self: Self, text: str) -> None:
         """Test that an error is raised when no URL is found."""
-        text = "There is no URL here."
         with pytest.raises(ValueError, match="No TOTP URL found"):
             find_totp_url(text)
 
